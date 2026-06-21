@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Все монеты{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">🪙 Моя коллекция монет</h1>
+
+    {% if coins %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for coin in coins %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        {% if coin.image %}
+                            <img src="{{ coin.image.url }}" class="card-img-top" alt="{{ coin.country }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <span class="text-white" style="font-size: 4rem;">🪙</span>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ coin.country }}</h5>
+                            <p class="card-text">
+                                <strong>{{ coin.year }}</strong> — {{ coin.denomination }}<br>
+                                <span class="badge bg-info">{{ coin.get_condition_display }}</span>
+                                {% if coin.metal %}
+                                    <span class="badge bg-secondary">{{ coin.metal }}</span>
+                                {% endif %}
+                            </p>
+                            <a href="{% url 'coins:coin_detail' coin.pk %}" class="btn btn-primary btn-sm">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            В коллекции пока нет монет. <a href="{% url 'admin:index' %}">Добавьте первую монету</a> в админке!
+        </div>
+    {% endif %}
+{% endblock %}

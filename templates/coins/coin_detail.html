@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ coin.country }} {{ coin.year }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            {% if coin.image %}
+                <img src="{{ coin.image.url }}" class="img-fluid rounded shadow" alt="{{ coin.country }}">
+            {% else %}
+                <div class="bg-secondary d-flex align-items-center justify-content-center rounded shadow" style="height: 400px;">
+                    <span class="text-white" style="font-size: 6rem;">🪙</span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h1>{{ coin.country }}</h1>
+            <h3 class="text-muted">{{ coin.year }}</h3>
+            <hr>
+            <p><strong>Номинал:</strong> {{ coin.denomination }}</p>
+            {% if coin.metal %}
+                <p><strong>Металл:</strong> {{ coin.metal }}</p>
+            {% endif %}
+            <p><strong>Состояние:</strong> <span class="badge bg-info">{{ coin.get_condition_display }}</span></p>
+            {% if coin.weight %}
+                <p><strong>Вес:</strong> {{ coin.weight }} г</p>
+            {% endif %}
+            {% if coin.diameter %}
+                <p><strong>Диаметр:</strong> {{ coin.diameter }} мм</p>
+            {% endif %}
+            {% if coin.description %}
+                <p><strong>Описание:</strong> {{ coin.description }}</p>
+            {% endif %}
+            <p class="text-muted mt-3">
+                <small>Добавлено: {{ coin.added_at|date:"d.m.Y H:i" }}</small>
+            </p>
+            <a href="{% url 'coins:coin_list' %}" class="btn btn-secondary">← Назад к коллекции</a>
+        </div>
+    </div>
+{% endblock %}
